@@ -1,0 +1,125 @@
+{% extends "todo.html" %}
+{% load todo_extras %}
+
+{% block extra_media %}
+{{f.media}}
+{% include "extra_css.html" %}
+{% endblock %}
+
+{% block left %}
+
+<div>
+<b>Проект</b><br />
+<span><a href="{% url project_details task.project.id %}">{{task.project.title}}</a></span>
+</div>
+
+<div class="top-indent">
+<b>Автор</b><br />
+<span>{{task.author|username}}</span>
+</div>
+
+<div class="top-indent">
+<b>Добавлена</b><br />
+<span>{{task.created_at|format_date:"short"}}</span>
+</div>
+
+<div class="top-indent">
+<b>Ответственный</b><br />
+{% if task.assigned_to %}
+<span>{{task.assigned_to|username}}</span>
+{% else %}
+<span>не назначен</span>
+{% endif %}
+</div>
+
+{% if task.deadline %}
+<div class="top-indent">
+<b>Срок</b><br />
+<span>{{task.deadline|format_deadline:task.status.id}}</span>
+</div>
+{% endif %}
+
+{% ifequal task.author.id user.id %}
+<br />
+<a href="{% url edit_task task.id %}"><img src="{{MEDIA_URL}}/img/pencil.png" /></a>&nbsp;&nbsp;<a href="javascript:if(confirm('Удалить задачу?')) location.href='{% url delete_task task.id %}'" style="color:red"><img src="{{MEDIA_URL}}/img/cross.png" /></a>
+{% endifequal %}
+
+{% endblock %}
+
+
+{% block content %}
+<div id="task-container">
+
+<h2 id="task-title">{{task.title}}</h2>
+{% if task.info %}<div id="task-info">{{task.info|linebreaksbr}}</div>{% endif %}
+</div>
+
+<div id="task-action">
+
+<table cellpadding="0" cellspacing="0" border="0"><tr>
+<td style="vertical-align:middle;padding-left:0px">
+<div class="status status{{task.status.id}}" style="display:inline">&nbsp;{% ifequal task.status.id 4 %}завершена{% else %}{{task.status.title|lower}}{% endifequal %}&nbsp;</div>
+</td>
+
+<td style="padding-left:10px">
+
+{% ifequal task.status.id 1 %}
+	{% ifequal task.assigned_to.id user.id %}
+		<a class="button" href="{% url task_to_accepted task.id %}"><span>Принять</span></a>
+	{% else %}&nbsp;{% endifequal %}
+{% endifequal %}
+{% ifequal task.status.id 2 %}
+	{% ifequal task.assigned_to.id user.id %}
+		<a class="button" href="{% url task_to_done task.id %}"><span>Завершить</span></a>
+	{% else %}&nbsp;{% endifequal %}
+{% endifequal %}
+{% ifequal task.status.id 3 %}
+	{% ifequal task.author.id user.id %}
+		<a class="button" href="{% url task_to_checked task.id %}"><span>Одобрить</span></a>
+	{% else %}&nbsp;{% endifequal %}
+{% endifequal %}
+{% ifequal task.status.id 4 %}
+	{% ifequal task.author.id user.id %}
+		<a class="button" href="{% url task_to_new task.id %}"><span>Открыть заново</span></a>
+	{% else %}&nbsp;{% endifequal %}
+{% endifequal %}
+
+</td>
+<td style="vertical-align:middle;padding-left:50px"><a href="{% url tasks_list %}" class="bigger">Назад к задачам &rarr;</a></td>
+</tr></table>
+
+</div>
+
+
+<div id="task-extra">
+
+<a name="files"></a>
+{% include "todo/files.html" %}
+
+<a name="comments"></a>
+<h1>Комментарии</h1>
+{% if task.comments.all %}
+<div id="comment-container">
+{% for comment in task.comments.all %}
+	<div class="comment">	
+	{{comment.message|linebreaksbr}}
+	<div class="comment-extra">{{comment.author|username}}, {{comment.created_at|format_date}}
+	{% ifequal comment.author user %}
+	<a href="javascript:if(confirm('Удалить комментарий?')) location.href='{% url del_comment comment.id %}'"><img src="{{MEDIA_URL}}/img/cross_small.png" style="vertical-align:middle" /></a>
+	{% endifequal %}
+	</div>
+	</div>
+{% endfor %}
+</div>
+{% endif %}
+
+<div class="editformWrapper" style="width:700px; margin-top:25px">
+<form method="post" action="{% url add_comment task.id %}" id="comment-form">
+<textarea name="message" rows="6" cols="30"></textarea><br />
+<input type="submit" value="Добавить комментарий" class="button" />
+</form>
+</div>
+<br />
+</div>
+
+{% endblock %}

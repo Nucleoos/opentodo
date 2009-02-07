@@ -1,0 +1,9 @@
+{% extends "todo.html" %}
+
+{% block extra_media %}{{form.media}}{% endblock %}
+
+{% block content %}
+<h1>{% if add %}Добавление{% else %}Редактирование{% endif %} проекта</h1>
+{% include "todo/project_form.html" %}
+
+{% endblock %}

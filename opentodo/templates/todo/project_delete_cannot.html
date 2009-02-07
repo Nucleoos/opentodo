@@ -1,0 +1,10 @@
+{% extends "todo.html" %}
+{% load todo_extras %}
+
+{% block left %}
+<a href={% url projects_list %}>&larr; Назад к проектам</a>
+{% endblock %}
+
+{% block content %}
+<big>Проект <a href="{% url project_details project.id %}">{{ project.title }}</a> содержит задачи ({{project.tasks_count}}), поэтому его нельзя удалить<big>.
+{% endblock %}

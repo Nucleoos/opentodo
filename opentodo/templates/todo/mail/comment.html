@@ -1,0 +1,18 @@
+{% load todo_extras %}
+
+{{base_url}}{% url task_details t.id %}#comments
+{{c.author|username}}, {{c.created_at|date:"d.m.Y H:i"}}
+{{c.message}}
+
+------------------------------------------------------------------------
+Задача:
+{{t.title}}
+{% if t.info %}{{t.info}}{% endif %}
+
+Статус: {{t.status.title }}
+Проект: {{t.project.title }}
+Автор: {{ t.author|username }}
+Дата: {{t.created_at|date:"d.m.Y"}}
+Ответственный: {{ t.assigned_to|username }}
+Срок: {{ t.deadline|date:"d.m.Y" }}
+------------------------------------------------------------------------
