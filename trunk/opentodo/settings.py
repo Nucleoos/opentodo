@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
 
+# ! It is a good idea not to edit this and edit local_settings.py instead
+# ! (copy local_settings.py.default to local_settings.py first)
+# ! Especially if you want to update from Subversion in future, because
+# ! local_settings.py is not under version control
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -29,9 +34,6 @@ EMAIL_HOST_PASSWORD = ''
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'ih^s_r3qgx!8-7aj%7^tqg#mj&zpdmchbbc=+*9=y#cm&v(ga)'
 
-#############################################################################
-# You should not edit the settings bellow
-#############################################################################
 
 ADMIN_MEDIA_PREFIX = '/admin_media/'
 
@@ -91,3 +93,13 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'todo',
 )
+
+##################################################################################
+# You can create local_settings.py to override the settings.
+# It is recomended to put all your custom settings (database, path, etc.) there
+# if you want to update from Subversion in future.
+##################################################################################
+try:
+    from local_settings import *
+except ImportError:
+    pass
