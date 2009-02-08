@@ -29,9 +29,8 @@ EMAIL_HOST_PASSWORD = ''
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'ih^s_r3qgx!8-7aj%7^tqg#mj&zpdmchbbc=+*9=y#cm&v(ga)'
 
-
 #############################################################################
-# You should not edit these settings
+# You should not edit the settings bellow
 #############################################################################
 
 ADMIN_MEDIA_PREFIX = '/admin_media/'
