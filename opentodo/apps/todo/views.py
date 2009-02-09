@@ -14,6 +14,10 @@ from todo.forms import *
 from django.core.mail import send_mail
 from datetime import datetime
 
+@login_required
+def index(request):
+    return HttpResponseRedirect(reverse('tasks_list'))
+
 # Список задач
 @login_required
 def list(request, state=0):
