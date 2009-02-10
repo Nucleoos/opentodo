@@ -15,9 +15,6 @@ DATABASE_PASSWORD = ''           # Not used with sqlite3.
 DATABASE_HOST = ''               # Set to empty string for localhost. Not used with sqlite3.
 DATABASE_PORT = ''               # Set to empty string for default. Not used with sqlite3.
 
-# BASE_URL = http://myhost.com/opentodo/
-BASE_URL = ''
-
 # Absolute path to the directory that holds media.
 # MEDIA_ROOT = '/var/www/opentodo_media'
 MEDIA_ROOT = ''

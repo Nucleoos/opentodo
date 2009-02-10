@@ -2,7 +2,7 @@
 
 from django.conf import settings
 from django.shortcuts import get_object_or_404, render_to_response
-from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.http import HttpResponse, HttpResponseRedirect, Http404, HttpRequest
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from todo.models import *
@@ -213,7 +213,7 @@ def add_task(request):
                 t.save()
                 if t.assigned_to.email and settings.EMAIL_HOST:
                     tmpl = get_template('todo/mail/task.html')
-                    msg_body = tmpl.render( Context({'t':t, 'base_url':settings.BASE_URL}) )
+                    msg_body = tmpl.render( Context({'t':t, 'host':request.get_host()}) )
                     send_mail('[ToDo] Новая задача', msg_body, 'noreply@localhost', [t.assigned_to.email], fail_silently=True)
             
             return HttpResponseRedirect(reverse('task_details', args=(t.id,)))
@@ -409,7 +409,7 @@ def task_to_done(request, task_id):
 
     if settings.EMAIL_HOST:
         tmpl = get_template('todo/mail/task.html')
-        msg_body = tmpl.render( Context({'t':task, 'base_url':settings.BASE_URL}) )
+        msg_body = tmpl.render( Context({'t':task, 'host':request.get_host()}) )
         send_mail('[ToDo] Задача выполнена', msg_body, 'noreply@localhost', [task.author.email], fail_silently=True)
 
     return HttpResponseRedirect(reverse('task_details', args=(task_id,)))
@@ -470,7 +470,7 @@ def add_comment(request, task_id):
         
         if settings.EMAIL_HOST:
             tmpl = get_template('todo/mail/comment.html')
-            msg_body = tmpl.render( Context({'t':t, 'c':c, 'base_url':settings.BASE_URL}) )
+            msg_body = tmpl.render( Context({'t':t, 'c':c, 'host':request.get_host()}) )
             addrs = []
             if c.author != t.author:
                 addrs.append(t.author.email)

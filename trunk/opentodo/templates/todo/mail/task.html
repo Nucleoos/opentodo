@@ -1,6 +1,6 @@
 {% load todo_extras %}
 
-{{base_url}}{% url task_details t.id %}
+http://{{host}}/opentodo/{% url task_details t.id %}
 Задача: {{t.title}}
 {% if t.info %}{{t.info}}{% endif %}
 -------------------------------------------------------

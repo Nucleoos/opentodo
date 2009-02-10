@@ -1,6 +1,6 @@
 {% load todo_extras %}
 
-{{base_url}}{% url task_details t.id %}#comments
+{{host}}{% url task_details t.id %}#comments
 {{c.author|username}}, {{c.created_at|date:"d.m.Y H:i"}}
 {{c.message}}
 
