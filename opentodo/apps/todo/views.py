@@ -338,6 +338,11 @@ def edit_project(request, project_id):
     except Task.DoesNotExist:
         raise Http404
 
+    try:
+        author = project.author
+    except User.DoesNotExist:
+        author = None
+
     if not (request.user.has_perm('todo.change_project') or request.user == author):
         return HttpResponse("Недостаточно прав для выполнения действия.")
 

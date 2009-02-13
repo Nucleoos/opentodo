@@ -42,9 +42,12 @@
 </div>
 {% endif %}
 
-{% ifequal task.author.id user.id %}
-<br />
-<a href="{% url edit_task task.id %}"><img src="{{MEDIA_URL}}/img/pencil.png" /></a>&nbsp;&nbsp;<a href="javascript:if(confirm('Удалить задачу?')) location.href='{% url delete_task task.id %}'" style="color:red"><img src="{{MEDIA_URL}}/img/cross.png" /></a>
+{% ifequal task.author user %}
+	{% include "todo/task_actions.html" %}
+{% else %}
+	{% if perms.todo.change_task %}
+		{% include "todo/task_actions.html" %}
+	{% endif %}
 {% endifequal %}
 
 {% endblock %}
@@ -100,29 +103,8 @@
 {% include "todo/files.html" %}
 
 <a name="comments"></a>
-<h1>Комментарии</h1>
-{% if task.comments.all %}
-<div id="comment-container">
-{% for comment in task.comments.all %}
-	<div class="comment">	
-	{{comment.message|linebreaksbr}}
-	<div class="comment-extra">{{comment.author|username}}, {{comment.created_at|format_date}}
-	{% ifequal comment.author user %}
-	<a href="javascript:if(confirm('Удалить комментарий?')) location.href='{% url del_comment comment.id %}'"><img src="{{MEDIA_URL}}/img/cross_small.png" style="vertical-align:middle" /></a>
-	{% endifequal %}
-	</div>
-	</div>
-{% endfor %}
-</div>
-{% endif %}
+{% include "todo/task_comments.html" %}
 
-<div class="editformWrapper" style="width:700px; margin-top:25px">
-<form method="post" action="{% url add_comment task.id %}" id="comment-form">
-<textarea name="message" rows="6" cols="30"></textarea><br />
-<input type="submit" value="Добавить комментарий" class="button" />
-</form>
-</div>
-<br />
 </div>
 
 {% endblock %}
