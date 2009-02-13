@@ -31,8 +31,8 @@ EMAIL_HOST_PASSWORD = ''
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'ih^s_r3qgx!8-7aj%7^tqg#mj&zpdmchbbc=+*9=y#cm&v(ga)'
 
-LOGIN_URL = '/opentodo/accounts/login/'
-LOGIN_REDIRECT_URL= '/opentodo/'
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL= '/'
 
 import sys, os
 PROJECT_DIR = os.path.dirname(__file__)

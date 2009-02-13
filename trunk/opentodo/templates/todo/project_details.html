@@ -18,7 +18,13 @@
 <b>Дата создания</b><br />
 <span>{{project.created_at|format_date:"short"}}</span>
 </div>
-<br /><a href="{% url edit_project project.id %}"><img src="{{MEDIA_URL}}/img/pencil.png" /></a>&nbsp;&nbsp;<a href="javascript:if(confirm('Удалить проект {{project.title}}?')) location.href='{% url delete_project project.id %}'" style="color: red"><img src="{{MEDIA_URL}}/img/cross.png" /></a>
+{% ifequal project.author user %}
+	{% include "todo/project_actions.html" %}
+{% else %}
+	{% if perms.todo.change_project %}
+		{% include "todo/project_actions.html" %}
+	{% endif %}
+{% endifequal %}
 
 {% endblock %}
 
