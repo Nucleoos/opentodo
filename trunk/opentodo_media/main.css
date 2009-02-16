@@ -131,7 +131,7 @@ h1#todolist {
 	padding: 1px 5px 1px 10px;
 }
 #leftmenu .selected {
-	background-color:  #aaaaaa; /*#ddd;*/
+	background-color:  #839097; /*#ddd;*/
 }
 #leftmenu a, #leftmenu a:visited {
 	text-decoration:none;
@@ -171,15 +171,15 @@ table.common td {
 table.common th {
 	border-bottom: 1px solid #bbb; 
 	border-top: 0px solid #ccc; 
-	background-color: #aaaaaa; /*#ddd;*/
+	background-color: #839097; /*#ddd;*/
 	font-weight: normal;
 }
 table.common th.left, table.common td.left {
-	border-left: 3px solid  #aaaaaa; /*#ddd;*/
+	border-left: 3px solid  #839097; /*#ddd;*/
 	padding-left: 20px;
 }
 table.common th.active {
-	background-color: #ddd; /*#fff;*/
+	background-color: #d5dee3; /*#fff;*/
 
 }
 td.center, th.center {
@@ -187,7 +187,7 @@ td.center, th.center {
 }
 table.common td.bottom {
 	border:0;
-	border-top: 2px solid  #aaaaaa; /*#ddd;*/
+	border-top: 2px solid  #839097; /*#ddd;*/
 }
 div.status {
 	margin-top: 2px;
