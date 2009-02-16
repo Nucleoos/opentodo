@@ -50,7 +50,7 @@ $(document).ready(function(){
 		</select>
 	</div>
 	<div class="fieldWrapper fieldWrapperIndent">
-		<label>&nbsp;</label><input type="submit" value="Сохранить" class="button" /><a href="{% if add %}{% url tasks_list %}{% else %}{% url task_details task.id %}{% endif %}">отмена</a>
+		<label>&nbsp;</label><input type="submit" value="Сохранить задачу" class="button" /><a href="{% if add %}{% url tasks_list %}{% else %}{% url task_details task.id %}{% endif %}">отмена</a>
 	</div>
 </form>
 </div>
