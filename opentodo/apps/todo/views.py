@@ -214,7 +214,7 @@ def add_task(request):
                 if t.assigned_to.email and settings.EMAIL_HOST:
                     tmpl = get_template('todo/mail/task.html')
                     msg_body = tmpl.render( Context({'t':t, 'host':request.get_host()}) )
-                    send_mail('[ToDo] Новая задача', msg_body, 'noreply@localhost', [t.assigned_to.email], fail_silently=True)
+                    send_mail('[ToDo] Новая задача', msg_body, settings.EMAIL_ADDRESS_FROM, [t.assigned_to.email], fail_silently=settings.EMAIL_FAIL_SILENTLY)
             
             return HttpResponseRedirect(reverse('task_details', args=(t.id,)))
     else:        
@@ -415,7 +415,7 @@ def task_to_done(request, task_id):
     if settings.EMAIL_HOST:
         tmpl = get_template('todo/mail/task.html')
         msg_body = tmpl.render( Context({'t':task, 'host':request.get_host()}) )
-        send_mail('[ToDo] Задача выполнена', msg_body, 'noreply@localhost', [task.author.email], fail_silently=True)
+        send_mail('[ToDo] Задача выполнена', msg_body, settings.EMAIL_ADDRESS_FROM, [task.author.email], fail_silently=settings.EMAIL_FAIL_SILENTLY)
 
     return HttpResponseRedirect(reverse('task_details', args=(task_id,)))
 
@@ -481,7 +481,7 @@ def add_comment(request, task_id):
                 addrs.append(t.author.email)
             if t.assigned_to and c.author != t.assigned_to:
                 addrs.append(t.assigned_to.email)
-            send_mail('[ToDo] Комментарий к задаче', msg_body, 'noreply@localhost', addrs, fail_silently=True)
+            send_mail('[ToDo] Комментарий к задаче', msg_body, settings.EMAIL_ADDRESS_FROM, addrs, fail_silently=settings.EMAIL_FAIL_SILENTLY)
 
     return HttpResponseRedirect(reverse('task_details', args=(task_id,)))
 

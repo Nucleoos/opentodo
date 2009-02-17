@@ -24,9 +24,14 @@ MEDIA_ROOT = ''
 # MEDIA_URL = 'http://static.myhost.ru' or MEDIA_URL = 'http://myhost.ru/static/'
 MEDIA_URL = ''
 
-EMAIL_HOST = ''
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST = ''           # smtp.myhost.com
+EMAIL_HOST_USER = ''      # user123
+EMAIL_HOST_PASSWORD = ''  # qwerty
+EMAIL_ADDRESS_FROM = ''   # noreply@myhost.com
+if DEBUG:
+    EMAIL_FAIL_SILENTLY = False
+else:
+    EMAIL_FAIL_SILENTLY = True
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'ih^s_r3qgx!8-7aj%7^tqg#mj&zpdmchbbc=+*9=y#cm&v(ga)'
