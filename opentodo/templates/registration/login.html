@@ -38,6 +38,13 @@ function setFocus() {
 	} else if (document.getElementById("id_password").value == "") {
 		document.getElementById("id_password").focus();
 	}
+{% ifequal HOST 'opentodo.openminds.ru' %}
+//	если демо-версия - автологин
+	document.getElementById("id_username").value = 'demo';
+	document.getElementById("id_password").value = 'demo';
+	document.getElementById("id_submit").focus();
+	document.getElementById("id_loginform").submit();
+{% endifequal %}
 }
 </script> 
 </head>
@@ -48,12 +55,12 @@ function setFocus() {
 		{% if form.has_errors %}
 		<div class="error">Неправильный логин или пароль</div>
 		{% endif %}
-		<form method="post" action=".">
+		<form method="post" action="." id="id_loginform">
 		<table>
 		<tr><td></td><td class="logo"><span style="padding-right: 2px;">open</span><b>todo</b></td></tr>
 		<tr><td><label for="id_username">Логин:</label></td><td>{{ form.username }}</td></tr>
 		<tr><td><label for="id_password">Пароль:&nbsp;</label></td><td>{{ form.password }}</td></tr>
-		<tr><td>&nbsp;</td><td><input type="submit" value="Войти" /></td></tr>
+		<tr><td>&nbsp;</td><td><input type="submit" value="Войти" id="id_submit" /></td></tr>
 		{% ifequal HOST 'opentodo.openminds.ru' %}
 			<tr><td>&nbsp;</td>
 			<td style="padding-top:10px;">Логин / пароль: <i><b><span style="color:green">demo / demo</span></b></i></td></tr>
