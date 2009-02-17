@@ -28,7 +28,7 @@
 
 <div id="top-right">
 {% if user.is_authenticated %}
-	{{user|username}} (<a href="{% url django.contrib.auth.views.logout_then_login %}">Выйти</a>)
+	{{user|username}} ({% ifequal HOST 'opentodo.openminds.ru' %}<a href="http://code.google.com/p/opentodo">{% else %}<a href="{% url django.contrib.auth.views.logout_then_login %}">{% endifequal %}Выйти</a>)
 {% else %}
 	Вы не авторизованы
 {% endif %}
