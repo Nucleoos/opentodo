@@ -211,7 +211,7 @@ def add_task(request):
             if assigned_to_id:
                 t.assigned_to = User.objects.get(pk=assigned_to_id)
                 t.save()
-                if t.assigned_to.email and settings.EMAIL_HOST:
+                if t.assigned_to.email and settings.SEND_EMAILS:
                     tmpl = get_template('todo/mail/task.html')
                     msg_body = tmpl.render( Context({'t':t, 'host':request.get_host()}) )
                     send_mail('[ToDo] Новая задача', msg_body, settings.EMAIL_ADDRESS_FROM, [t.assigned_to.email], fail_silently=settings.EMAIL_FAIL_SILENTLY)
@@ -412,7 +412,7 @@ def task_to_done(request, task_id):
     task.status = Status.objects.get(pk=3)
     task.save()
 
-    if settings.EMAIL_HOST:
+    if settings.SEND_EMAILS:
         tmpl = get_template('todo/mail/task.html')
         msg_body = tmpl.render( Context({'t':task, 'host':request.get_host()}) )
         send_mail('[ToDo] Задача выполнена', msg_body, settings.EMAIL_ADDRESS_FROM, [task.author.email], fail_silently=settings.EMAIL_FAIL_SILENTLY)
@@ -473,7 +473,7 @@ def add_comment(request, task_id):
         c = Comment(author=request.user, task=t, message=m)
         c.save()
         
-        if settings.EMAIL_HOST:
+        if settings.SEND_EMAILS:
             tmpl = get_template('todo/mail/comment.html')
             msg_body = tmpl.render( Context({'t':t, 'c':c, 'host':request.get_host()}) )
             addrs = []
