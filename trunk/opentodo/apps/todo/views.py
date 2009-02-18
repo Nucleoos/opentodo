@@ -214,7 +214,7 @@ def add_task(request):
                 if t.assigned_to.email and settings.SEND_EMAILS:
                     tmpl = get_template('todo/mail/task.html')
                     msg_body = tmpl.render( Context({'t':t, 'host':request.get_host()}) )
-                    send_mail('[ToDo] Новая задача', msg_body, settings.EMAIL_ADDRESS_FROM, [t.assigned_to.email], fail_silently=settings.EMAIL_FAIL_SILENTLY)
+                    send_mail('[opentodo] Новая задача', msg_body, settings.EMAIL_ADDRESS_FROM, [t.assigned_to.email], fail_silently=settings.EMAIL_FAIL_SILENTLY)
             
             return HttpResponseRedirect(reverse('task_details', args=(t.id,)))
     else:        
@@ -391,6 +391,11 @@ def task_to_accepted(request, task_id):
     task.status = Status.objects.get(pk=2)
     task.save()
     
+    if task.author.email and settings.SEND_EMAILS:
+        tmpl = get_template('todo/mail/task.html')
+        msg_body = tmpl.render( Context({'t':task, 'host':request.get_host()}) )
+        send_mail('[opentodo] Задача принята на выполнение', msg_body, settings.EMAIL_ADDRESS_FROM, [task.author.email], fail_silently=settings.EMAIL_FAIL_SILENTLY)
+
     return HttpResponseRedirect(reverse('task_details', args=(task_id,)))
 
 # Завершить задачу
@@ -412,10 +417,10 @@ def task_to_done(request, task_id):
     task.status = Status.objects.get(pk=3)
     task.save()
 
-    if settings.SEND_EMAILS:
+    if task.author.email and settings.SEND_EMAILS:
         tmpl = get_template('todo/mail/task.html')
         msg_body = tmpl.render( Context({'t':task, 'host':request.get_host()}) )
-        send_mail('[ToDo] Задача выполнена', msg_body, settings.EMAIL_ADDRESS_FROM, [task.author.email], fail_silently=settings.EMAIL_FAIL_SILENTLY)
+        send_mail('[opentodo] Задача выполнена', msg_body, settings.EMAIL_ADDRESS_FROM, [task.author.email], fail_silently=settings.EMAIL_FAIL_SILENTLY)
 
     return HttpResponseRedirect(reverse('task_details', args=(task_id,)))
 
@@ -437,7 +442,12 @@ def task_to_checked(request, task_id):
 
     task.status = Status.objects.get(pk=4)
     task.save()
-    
+
+    if task.assigned_to.email and settings.SEND_EMAILS:
+        tmpl = get_template('todo/mail/task.html')
+        msg_body = tmpl.render( Context({'t':task, 'host':request.get_host()}) )
+        send_mail('[opentodo] Результат выполнения задачи одобрен', msg_body, settings.EMAIL_ADDRESS_FROM, [task.assigned_to.email], fail_silently=settings.EMAIL_FAIL_SILENTLY)    
+
     return HttpResponseRedirect(reverse('task_details', args=(task_id,)))
 
 # Открыть заново задачу
@@ -459,6 +469,11 @@ def task_to_new(request, task_id):
     task.status = Status.objects.get(pk=1)
     task.save()
     
+    if task.assigned_to.email and settings.SEND_EMAILS:
+        tmpl = get_template('todo/mail/task.html')
+        msg_body = tmpl.render( Context({'t':task, 'host':request.get_host()}) )
+        send_mail('[opentodo] Задача открыта заново', msg_body, settings.EMAIL_ADDRESS_FROM, [task.assigned_to.email], fail_silently=settings.EMAIL_FAIL_SILENTLY)    
+
     return HttpResponseRedirect(reverse('task_details', args=(task_id,)))
 
 # Добавить комментарий к задаче
@@ -481,7 +496,7 @@ def add_comment(request, task_id):
                 addrs.append(t.author.email)
             if t.assigned_to and c.author != t.assigned_to:
                 addrs.append(t.assigned_to.email)
-            send_mail('[ToDo] Комментарий к задаче', msg_body, settings.EMAIL_ADDRESS_FROM, addrs, fail_silently=settings.EMAIL_FAIL_SILENTLY)
+            send_mail('[opentodo] Комментарий к задаче', msg_body, settings.EMAIL_ADDRESS_FROM, addrs, fail_silently=settings.EMAIL_FAIL_SILENTLY)
 
     return HttpResponseRedirect(reverse('task_details', args=(task_id,)))
 
