@@ -150,6 +150,18 @@ def details(request, task_id):
         if f.is_valid():
             attach = f.save(commit = False)
             attach.save()
+
+            if settings.SEND_EMAILS:
+                tmpl = get_template('todo/mail/file.html')
+                msg_body = tmpl.render( Context({'t':task, 'filename':request.FILES['name']}) )
+                addrs = []
+                if attach.author != task.author and task.author.email:
+                    addrs.append(task.author.email)
+                if task.assigned_to and attach.author != task.assigned_to and task.assigned_to.email:
+                    addrs.append(task.assigned_to.email)
+                if addrs:
+                    send_mail('[opentodo] Файл прикреплен к задаче', msg_body, settings.EMAIL_ADDRESS_FROM, addrs, fail_silently=settings.EMAIL_FAIL_SILENTLY)
+
             return HttpResponseRedirect(reverse('task_details', args=(task_id,)))
     else:
         f = TaskAttachForm(instance=task_attach)
