@@ -1,18 +1,8 @@
 {% load todo_extras %}
 
-{{host}}{% url task_details t.id %}#comments
-{{c.author|username}}, {{c.created_at|date:"d.m.Y H:i"}}
+Комментарий к задаче: {{t.title}}
+
 {{c.message}}
+написал {{c.author|username}}, {{c.created_at|date:"d.m.Y H:i"}}
 
-------------------------------------------------------------------------
-Задача:
-{{t.title}}
-{% if t.info %}{{t.info}}{% endif %}
-
-Статус: {{t.status.title }}
-Проект: {{t.project.title }}
-Автор: {{ t.author|username }}
-Дата: {{t.created_at|date:"d.m.Y"}}
-Ответственный: {{ t.assigned_to|username }}
-Срок: {{ t.deadline|date:"d.m.Y" }}
-------------------------------------------------------------------------
+{{host}}{% url task_details t.id %}#comments

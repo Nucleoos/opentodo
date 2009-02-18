@@ -1,12 +1,11 @@
 {% load todo_extras %}
-
-http://{{host}}/opentodo/{% url task_details t.id %}
 Задача: {{t.title}}
 {% if t.info %}{{t.info}}{% endif %}
--------------------------------------------------------
+
 Проект: {{t.project.title }}
 Автор: {{ t.author|username }}
 Дата: {{t.created_at|date:"d.m.Y"}}
 Ответственный: {{ t.assigned_to|username }}
-Срок: {{ t.deadline|date:"d.m.Y" }}
--------------------------------------------------------
+{% if t.deadline %}Срок: {{ t.deadline|date:"d.m.Y" }}{% endif %}
+
+http://{{host}}/opentodo/{% url task_details t.id %}
