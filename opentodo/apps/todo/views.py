@@ -492,11 +492,12 @@ def add_comment(request, task_id):
             tmpl = get_template('todo/mail/comment.html')
             msg_body = tmpl.render( Context({'t':t, 'c':c, 'host':request.get_host()}) )
             addrs = []
-            if c.author != t.author:
+            if c.author != t.author and t.author.email:
                 addrs.append(t.author.email)
-            if t.assigned_to and c.author != t.assigned_to:
+            if t.assigned_to and c.author != t.assigned_to and t.assigned_to.email:
                 addrs.append(t.assigned_to.email)
-            send_mail('[opentodo] Комментарий к задаче', msg_body, settings.EMAIL_ADDRESS_FROM, addrs, fail_silently=settings.EMAIL_FAIL_SILENTLY)
+            if addrs:
+                send_mail('[opentodo] Комментарий к задаче', msg_body, settings.EMAIL_ADDRESS_FROM, addrs, fail_silently=settings.EMAIL_FAIL_SILENTLY)
 
     return HttpResponseRedirect(reverse('task_details', args=(task_id,)))
 
