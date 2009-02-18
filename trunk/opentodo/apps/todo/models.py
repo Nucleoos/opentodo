@@ -3,6 +3,25 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+# Для уведомлений по e-mail
+from django.template.loader import get_template
+from django.template import Context
+from django.conf import settings
+from django.core.mail import send_mail
+
+# Тема письма при изменении статуса задачи
+TASK_NOTIF_SUBJECTS = {
+    1: 'Новая задача',
+    2: 'Задача принята на выполнение',
+    3: 'Задача выполнена',
+    4: 'Результат выполнения задачи одобрен',
+    5: 'Задача открыта заново'
+}
+
+# Удаляет дублирующие значения из списка
+def uniqs(seq):
+    return dict(zip(seq, [None,]*len(seq))).keys()
+
 # Генерирует upload path для FileField
 def make_upload_path(instance, filename):
     upload_path = "uploads"
@@ -49,6 +68,25 @@ class Task(models.Model):
     def __unicode__(self):
         return self.title
 
+    # Уведомления по e-mail (о добавлении задачи, изменении статуса)
+    def mail_notify(self, host='', reopened=False):
+        if settings.SEND_EMAILS:
+            tmpl = get_template('todo/mail/task.html')
+            msg_body = tmpl.render( Context({'t':self, 'host':host}) )
+            if reopened:
+                notif_id = 5
+            else:
+                notif_id = self.status.id
+
+            if ( notif_id in (1,4,5) ) and self.assigned_to.email:
+                addr = self.assigned_to.email
+            elif self.author.email:
+                addr = self.author.email
+        
+            if addr:
+                send_mail('[opentodo]'+TASK_NOTIF_SUBJECTS[notif_id], msg_body, settings.EMAIL_ADDRESS_FROM, [addr], fail_silently=settings.EMAIL_FAIL_SILENTLY)
+        
+
 # Комментарии к задачам
 class Comment(models.Model):
     task = models.ForeignKey(Task, related_name="comments")
@@ -57,6 +95,19 @@ class Comment(models.Model):
     created_at = models.DateTimeField("Дата", auto_now_add=True)
     class Meta:
         ordering = ['created_at']
+
+    # Уведомление по e-mail о добавлении комментария
+    def mail_notify(self, host=''):
+        if settings.SEND_EMAILS:
+            tmpl = get_template('todo/mail/comment.html')
+            msg_body = tmpl.render( Context({'t':self.task, 'c':self, 'host':host}) )
+            addrs = []
+            if self.task.author.email:
+                addrs.append(self.task.author.email)
+            if self.task.assigned_to and self.task.assigned_to.email:
+                addrs.append(self.task.assigned_to.email)
+            if addrs:                
+                send_mail('[opentodo] Комментарий к задаче', msg_body, settings.EMAIL_ADDRESS_FROM, uniqs(addrs), fail_silently=settings.EMAIL_FAIL_SILENTLY)
 
 # Абстрактный класс для файлов-вложений
 class CommonAttach(models.Model):
@@ -73,3 +124,17 @@ class ProjectAttach(CommonAttach):
 # Аттачи к задачам
 class TaskAttach(CommonAttach):
     task = models.ForeignKey(Task, related_name="files")
+
+    # Уведомление по e-mail о прикреплении файла к задаче
+    def mail_notify(self, host=''):
+        if settings.SEND_EMAILS:
+            tmpl = get_template('todo/mail/file.html')
+            msg_body = tmpl.render( Context({'t':self.task, 'a':self, 'host':host}) )
+            addrs = []
+            if self.task.author.email:
+                addrs.append(self.task.author.email)
+            if self.task.assigned_to and self.task.assigned_to.email:
+                addrs.append(self.task.assigned_to.email)
+            
+            if addrs:
+                send_mail('[opentodo] Файл прикреплен к задаче', msg_body, settings.EMAIL_ADDRESS_FROM, uniqs(addrs), fail_silently=settings.EMAIL_FAIL_SILENTLY)
