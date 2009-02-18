@@ -153,7 +153,7 @@ def details(request, task_id):
 
             if settings.SEND_EMAILS:
                 tmpl = get_template('todo/mail/file.html')
-                msg_body = tmpl.render( Context({'t':task, 'filename':request.FILES['attached_file']['name']}) )
+                msg_body = tmpl.render( Context({'t':task, 'a':attach}) )
                 addrs = []
                 if attach.author != task.author and task.author.email:
                     addrs.append(task.author.email)
