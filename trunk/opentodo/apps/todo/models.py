@@ -73,6 +73,7 @@ class Task(models.Model):
         if settings.SEND_EMAILS:
             tmpl = get_template('todo/mail/task.html')
             msg_body = tmpl.render( Context({'t':self, 'host':host}) )
+            addr = ''
             if reopened:
                 notif_id = 5
             else:
