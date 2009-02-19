@@ -48,7 +48,8 @@
 	<a href="{% url tasks_list %}?hide_done=1" class="hide-closed">скрыть завершенные</a>
 {% endif %}
 </div>
-<table class="common" cellspacing="0" cellpadding="0" style="width:100%">
+<div id="task-list">
+<table class="common" cellspacing="0" cellpadding="0" width="100%">
 	<tr>
 		<th class="left{% ifequal order 'task'%} active{% endifequal %}" width="100%"><a href="{% url tasks_list %}?order=task&dir={% ifequal order 'task'%}{% ifequal dir 'asc'%}desc{% else %}asc{% endifequal%}{% else %}asc{% endifequal%}">Задача{% ifequal order 'task'%}{% ifequal dir 'asc'%}&uarr;{% else %}&darr;{% endifequal%}{% endifequal%}</a></th>
 
@@ -85,6 +86,7 @@
 {% endif %}
 	<tr><td colspan="7" class="bottom">&nbsp;</td></tr>
 </table>
+</div>
 {% endblock %}
 
 {% block bottom %}
