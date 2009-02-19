@@ -2,7 +2,7 @@
 
 {% block extra_media %}{{form.media}}{% endblock %}
 
-{% block title %}| {% if add %}Добавление{% else %}Редактирование{% endif %} задачи{% endblock %}
+{% block title %}{% if add %}Добавление задачи{% else %}Редактирование задачи "{{task}}"{% endif %}{% endblock %}
 
 {% block content %}
 <h1>{% if add %}Добавление{% else %}Редактирование{% endif %} задачи</h1>
