@@ -1,6 +1,10 @@
 {% extends "todo.html" %}
 {% load todo_extras %}
 
+{% block extra_media %}
+{% include "extra_css.html" %}
+{% endblock %}
+
 {% block title %}Задачи{% endblock %}
 
 {% block left %}
@@ -23,9 +27,9 @@
 	<div{% ifequal folder 'all' %} class="selected"{% endifequal %}>
 		<a href="{% url tasks_list %}?folder=all">Все</a>
 	</div>
-	<div class="indent">
+<!-- 	<div class="indent">
 		<a href="{% url add_task %}" class="action1">Добавить&nbsp;задачу&nbsp;&rarr;</a>
-	</div>
+	</div> -->
 </div>
 
 
@@ -34,22 +38,31 @@
 {% endblock %}
 
 {% block content %}
-<div id="todolist-wrapper">
-<h1 id="todolist">
-{% ifequal folder 'inbox' %}Мои задачи{% endifequal %}
-{% ifequal folder 'outbox' %}Задачи, назначенные мной{% endifequal %}
-{% ifequal folder 'all' %}Все задачи{% endifequal %}
-{% if project %} по проекту {{project.title}}{% endif %}
-</h1>
 
-{% if hide_done %}
-	<a href="{% url tasks_list %}?hide_done=0" class="show-closed">показать завершенные</a>
-{% else %}
-	<a href="{% url tasks_list %}?hide_done=1" class="hide-closed">скрыть завершенные</a>
-{% endif %}
-</div>
 <div id="task-list">
-<table class="common" cellspacing="0" cellpadding="0" width="100%">
+
+<div id="task-list-top">
+	<div style="float:left; margin-bottom:20px;">
+	<h1 id="todolist">
+	{% ifequal folder 'inbox' %}Мои задачи{% endifequal %}
+	{% ifequal folder 'outbox' %}Задачи, назначенные мной{% endifequal %}
+	{% ifequal folder 'all' %}Все задачи{% endifequal %}
+	{% if project %} по проекту {{project.title}}{% endif %}
+	</h1>
+
+	{% if hide_done %}
+		<a href="{% url tasks_list %}?hide_done=0" class="show-closed">показать завершенные</a>
+	{% else %}
+		<a href="{% url tasks_list %}?hide_done=1" class="hide-closed">скрыть завершенные</a>
+	{% endif %}
+	</div>
+
+	<div style="float:right; text-align:right; margin-bottom:20px;">
+	<a class="button" href="{% url add_task %}" style="color:#333"><span>Добавить задачу</span></a>
+	</div>
+</div>
+
+<table class="common" style="clear:both;" cellspacing="0" cellpadding="0" width="100%">
 	<tr>
 		<th class="left{% ifequal order 'task'%} active{% endifequal %}" width="100%"><a href="{% url tasks_list %}?order=task&dir={% ifequal order 'task'%}{% ifequal dir 'asc'%}desc{% else %}asc{% endifequal%}{% else %}asc{% endifequal%}">Задача{% ifequal order 'task'%}{% ifequal dir 'asc'%}&uarr;{% else %}&darr;{% endifequal%}{% endifequal%}</a></th>
 
