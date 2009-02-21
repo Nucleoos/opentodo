@@ -21,6 +21,7 @@ img {
 #left-wrapper {
 	padding-left: 20px;
 	min-width: 170px;
+	width: 170px;
 }
 
 #content-wrapper {
@@ -116,9 +117,10 @@ th {
 
 /***********************************/
 /* Список задач                    */
-#todolist-wrapper {
-	padding-bottom: 20px;
+#task-list-top {
+	width:100%;
 }
+
 h1#todolist {
 	display: inline;
 	padding-right: 5px
@@ -128,6 +130,7 @@ h1#todolist {
 }
 #leftmenu div {
 	padding: 1px 5px 1px 10px;
+	margin-bottom: 2px;
 }
 #leftmenu .selected {
 	background-color:  #839097; /*#ddd;*/
