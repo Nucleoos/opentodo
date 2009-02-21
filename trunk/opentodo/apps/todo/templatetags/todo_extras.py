@@ -107,3 +107,13 @@ def extra_td_height(tasks_count):
         height = 20
         
     return "%s" % height
+
+"""
+    Обрезает длинные строки
+"""
+@register.filter
+def crop(text, count):
+    out = text[:int(count)]
+    if len(text) > len(out):
+        out += '&hellip;'
+    return mark_safe(out)

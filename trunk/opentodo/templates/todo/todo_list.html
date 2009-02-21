@@ -13,7 +13,7 @@
 
 <form method="get" id="prjform">
 <select name="project_id" onchange="document.getElementById('prjform').submit();"><option value="0">Все проекты</option>
-{% for p in projects %}<option value="{{p.id}}" {% ifequal p.id project.id %} selected{% endifequal %}>{{p.title}}</option>
+{% for p in projects %}<option value="{{p.id}}" {% ifequal p.id project.id %} selected{% endifequal %}>{{p.title|crop:"15"}}</option>
 {% endfor %}</select>
 </form>
 
