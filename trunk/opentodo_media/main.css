@@ -199,11 +199,13 @@ table.common td.bottom {
 }
 div.status {
 	margin-top: 2px;
-	padding: 1px 4px 3px 5px;
-	font-size: 12px;
+	padding: 0px 5px 3px 4px;
+	font-size: 11px;
 	line-height: 12px;
 	width: 62px;
 	color: #fff;
+	font-family:verdana;
+	vertical-align:middle;
 }
 
 div.status1 {
