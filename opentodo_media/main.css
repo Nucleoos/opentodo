@@ -199,9 +199,9 @@ table.common td.bottom {
 }
 div.status {
 	margin-top: 2px;
-	padding: 1px 4px 3px 5px;
+	line-height:12px;
 	font-size: 12px;
-	line-height: 12px;
+	padding: 2px 6px 4px 6px;
 	width: 62px;
 	color: #fff;
 }
