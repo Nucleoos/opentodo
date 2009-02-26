@@ -203,9 +203,26 @@ div.status {
 	font-size: 12px;
 	line-height: 12px;
 	width: 62px;
+	color: #fff;
 }
+
 div.status1 {
-	background-color: #ffcccc; /*  ff5c00 */
+	background-color: #f2bf28;
+}
+div.status2 {
+	background-color: #318ac8;
+}
+div.status3 {
+	background-color: #7aca12;
+}
+div.status4 {
+	background-color: #ddd;
+	color: #888;
+}
+
+/*
+div.status1 {
+	background-color: #ffcccc;
 	color: #663333;
 }
 div.status2 {
@@ -219,6 +236,8 @@ div.status3 {
 div.status4 {
 	background-color: #ddd;
 }
+*/
+
 tr.grey td {
 	background-color: #f5f5f5;
 }
