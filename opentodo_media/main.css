@@ -179,15 +179,15 @@ table.common td {
 table.common th {
 	border-bottom: 1px solid #bbb; 
 	border-top: 0px solid #ccc; 
-	background-color: #839097; /*#ddd;*/
+	background-color: #839097;
 	font-weight: normal;
 }
 table.common th.left, table.common td.left {
-	border-left: 3px solid  #839097; /*#ddd;*/
+	border-left: 3px solid  #839097;
 	padding-left: 20px;
 }
 table.common th.active {
-	background-color: #d5dee3; /*#fff;*/
+	background-color: #d5dee3;
 
 }
 td.center, th.center {
@@ -195,19 +195,38 @@ td.center, th.center {
 }
 table.common td.bottom {
 	border:0;
-	border-top: 2px solid  #839097; /*#ddd;*/
+	border-top: 2px solid  #839097;
 }
 div.status {
 	margin-top: 2px;
-	padding: 0px 5px 3px 4px;
-	font-size: 11px;
+	padding: 1px 4px 3px 4px;
+	font-size: 12px;
 	line-height: 12px;
 	width: 62px;
-	color: #fff;
-	font-family:verdana;
 	vertical-align:middle;
 }
 
+div.status1 {
+	background-color: #ffcccc;
+	color: #ba1717;
+}
+div.status2 {
+	background-color: #ffe376;
+	color: #7a2800;
+/*
+	background-color: #b1d2fd;
+	color: #11407b;
+*/
+}
+div.status3 {
+	background-color: #bcf187;
+	color: #006600;
+}
+div.status4 {
+	background-color: #ddd;
+	color: #777;
+}
+/*
 div.status1 {
 	background-color: #f2bf28;
 }
@@ -219,23 +238,6 @@ div.status3 {
 }
 div.status4 {
 	background-color: #aaadaf;
-}
-
-/*
-div.status1 {
-	background-color: #ffcccc;
-	color: #663333;
-}
-div.status2 {
-	background-color: #ffe376;
-	color: #663300;
-}
-div.status3 {
-	background-color: #bcf187;
-	color: #006600;
-}
-div.status4 {
-	background-color: #ddd;
 }
 */
 
