@@ -21,14 +21,14 @@
 {% if user.is_superuser %}
 |&nbsp;<a href="/admin/" style="color:#aa0033" target="_blank">Администрирование</a>
 {% endif %}
-{% ifequal HOST 'opentodo.openminds.ru' %}
+{% ifequal HOST 'demo.opentodo.ru' %}
 |&nbsp;<a href="http://code.google.com/p/opentodo/" target="_blank" style="color:#aa0033">Страница проекта на Google Code</a>
 {% endifequal %}
 </div>
 
 <div id="top-right">
 {% if user.is_authenticated %}
-	{{user|username}} ({% ifequal HOST 'opentodo.openminds.ru' %}<a href="http://code.google.com/p/opentodo">{% else %}<a href="{% url django.contrib.auth.views.logout_then_login %}">{% endifequal %}Выйти</a>)
+	{{user|username}} ({% ifequal HOST 'demo.opentodo.ru' %}<a href="http://code.google.com/p/opentodo">{% else %}<a href="{% url django.contrib.auth.views.logout_then_login %}">{% endifequal %}Выйти</a>)
 {% else %}
 	Вы не авторизованы
 {% endif %}
